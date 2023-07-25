@@ -94,7 +94,6 @@ class MergeCIFAR10And100Datasets:
 
         # concatenate
         self.df_merged_dataset = pd.concat([df_cifar_10, df_super_classes])
-        print(self.df_merged_dataset)
 
         # shuffle df
         # df_cifar_10.sample(frac=1)

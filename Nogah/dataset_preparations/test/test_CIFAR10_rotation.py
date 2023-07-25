@@ -1,7 +1,11 @@
+import pandas as pd
+
 from dataset_preparations import image_visualization
 
 
-def test_cifar10_rotation(df_cifar10, df_rotated_cifar10):
+def test_cifar10_rotation():
+    df_rotated_cifar10 = pd.read_csv('../data/rotated_CIFAR-10.csv')
+    df_cifar10 = pd.read_csv('../data/CIFAR-10_dataset.csv')
     class_size = 6000
     img_index = 3000
     labels = df_cifar10['label'].unique()
