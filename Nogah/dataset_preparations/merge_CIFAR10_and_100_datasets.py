@@ -20,6 +20,8 @@ class MergeCIFAR10And100Datasets:
         self.csv_our_label_names_path = None
         self.df_merged_dataset = None
 
+        self.merge_CIFAR_100_to_CIFAR_10()
+
     def super_class_from_CIFAR_100(self, label_name: str) -> (pd.DataFrame, int):
         """
         :param label_name: label name of desired class from CIFAR-100 dataset.
@@ -98,6 +100,5 @@ class MergeCIFAR10And100Datasets:
         # df_cifar_10.sample(frac=1)
 
         # Save the merged dataframe of CIFAR-10 with required labels images of CIFAR-100
-        data_folder = os.path.join(self.cifar10.save_directory, 'data')
-        self.csv_merge_dataset_path = os.path.join(data_folder, self.csv_merge_dataset)
+        self.csv_merge_dataset_path = os.path.join(self.cifar10.save_directory, self.csv_merge_dataset)
         self.df_merged_dataset.to_csv(self.csv_merge_dataset_path)
