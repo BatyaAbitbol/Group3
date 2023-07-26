@@ -19,3 +19,4 @@ def visualize_rotated(original, rotated):
     plt.imshow(rotated_rgb)
     plt.axis("off")
 
+    plt.show()

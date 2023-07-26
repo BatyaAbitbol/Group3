@@ -2,9 +2,9 @@ import numpy as np
 import pandas as pd
 import random
 import cv2
+import logging
+from datetime import datetime
 
-
-# and return rotated image in the same form
 
 def rotate_image(image_array: np.array, angle: float) -> np.array:
     """
@@ -47,6 +47,8 @@ def rotate_half_of_CIFAR_10(df_cifar10: pd.DataFrame) -> pd.DataFrame:
     pixels = [col for col in df_cifar10.columns if col.startswith('pixel')]
 
     for label in labels:
+        logging.info(f'LABEL: {label}')
+
         # create a DataFrame of the current label class
         df_class = df_cifar10[df_cifar10['label'] == label]
         # take only half class
@@ -65,7 +67,15 @@ def rotate_half_of_CIFAR_10(df_cifar10: pd.DataFrame) -> pd.DataFrame:
             # Create a random angle until 90 degrees
             angle = random.random() * 90
 
+            now = datetime.now()
+            logging.info(f"i = {i} -> rotate_image(image_array, {angle}), time: {now}")
+            print(now)
+
             rotated_image = rotate_image(image_array, angle)
+
+            now = datetime.now()
+            print(now)
+
             rotated_image_df = pd.DataFrame(rotated_image.reshape(1, -1), columns=pixels)
             rotated_image_df['label'] = label
             rotated_image_df['source'] = 'cifar-10 rotated'

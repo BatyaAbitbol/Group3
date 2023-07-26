@@ -28,6 +28,6 @@ def balance_data(df_dataset: pd.DataFrame, save_directory: str, rotated10_path: 
     df_cifar10_rotated = rotate_half_of_CIFAR_10(df_cifar10)
     df_cifar10_rotated.to_csv(save_directory + '/' + rotated10_path)
 
-    df_cifar100_rotated = rotate_CIFAR_10(df_cifar100)
-    df_cifar10_rotated.to_csv(save_directory + '/' + rotated100_path)
+    # df_cifar100_rotated = rotate_CIFAR_10(df_cifar100)
+    # df_cifar10_rotated.to_csv(save_directory + '/' + rotated100_path)
 
