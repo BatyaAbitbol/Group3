@@ -1,4 +1,4 @@
-from dataset_preparations.image_rotation import rotate_half_of_CIFAR_10, rotate_CIFAR_10
+from dataset_preparations.image_rotation import rotate_half_of_CIFAR_10, rotate_CIFAR_100
 import pandas as pd
 
 
@@ -28,6 +28,10 @@ def balance_data(df_dataset: pd.DataFrame, save_directory: str, rotated10_path: 
     df_cifar10_rotated = rotate_half_of_CIFAR_10(df_cifar10)
     df_cifar10_rotated.to_csv(save_directory + '/' + rotated10_path)
 
-    # df_cifar100_rotated = rotate_CIFAR_10(df_cifar100)
-    # df_cifar10_rotated.to_csv(save_directory + '/' + rotated100_path)
+    df_cifar100_rotated = rotate_CIFAR_100(df_cifar100)
+    df_cifar100_rotated.to_csv(save_directory + '/' + rotated100_path)
 
+    df_cifar10_cifar100_rotated = pd.concat([df_cifar10_rotated,df_cifar100_rotated])
+    df_cifar10_cifar100_rotated = df_cifar10_cifar100_rotated.sample(frac=1)
+
+    df_cifar10_cifar100_rotated.to_csv(save_directory + '/' +'perfect_dataset.csv')

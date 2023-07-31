@@ -78,11 +78,53 @@ def rotate_half_of_CIFAR_10(df_cifar10: pd.DataFrame) -> pd.DataFrame:
 
             rotated_image_df = pd.DataFrame(rotated_image.reshape(1, -1), columns=pixels)
             rotated_image_df['label'] = label
-            rotated_image_df['source'] = 'cifar-10 rotated'
+            rotated_image_df['source'] = 'cifar-10_rotated'
             rotated_cifar10 = pd.concat([rotated_cifar10, rotated_image_df])
 
     return rotated_cifar10
 
 
-def rotate_CIFAR_10(df_cifar100: pd.DataFrame):
-    pass
+def rotate_CIFAR_100(df_cifar100: pd.DataFrame):
+
+    pixels = [col for col in df_cifar100.columns if col.startswith('pixel')]
+    # Create an empty DataFrame with the same columns
+    rotated_cifar100 = pd.DataFrame(columns=df_cifar100.columns)
+
+    for img_index in range(0, df_cifar100.shape[0]):
+
+        # Access the row data by index using .iloc
+        row = df_cifar100.iloc[img_index]
+
+        # Extract image pixels from the row
+        img = row[pixels].values.reshape(32, 32, 3).astype('uint8')
+
+        label_number = row["label"]
+
+        # Create a random angle until 90 degrees
+        angle = random.random() * 90
+
+        rotate_img = rotate_image(img,angle)
+
+        now = datetime.now()
+        logging.info(f"i = {img_index} -> rotate_image(image_array, {angle}), time: {now}")
+        print(now)
+
+        #     # Flatten the rotated image to a 1-dimensional array
+        #     flattened_img = rotate_img.ravel()
+        # if (img_index == 0 or img_index % 1000 == 0):
+        #     visualize(img, rotate_img)
+
+        # Create a new row for the rotated image with the same format
+
+        rotated_img_df = pd.DataFrame(rotate_img.reshape(1, -1), columns=pixels)
+        rotated_img_df['label'] = label_number
+        rotated_img_df['source'] = 'cifar-100_rotated'
+        #         new_row = {f'pixel_{i}': pixel_value for i, pixel_value in enumerate(rotate_img)}
+        #         new_row['label'] = label_number
+        #         new_row['source'] = 'cifar-100_rotated'
+
+        # Append the new row to the rotated DataFrame
+        #         rotated_cifar10 = rotated_cifar100.append(new_row, ignore_index=True)
+        rotated_cifar100 = pd.concat([rotated_cifar100, rotated_img_df])
+    rotated_cifar100 = pd.concat([rotated_cifar100,df_cifar100])
+    return rotated_cifar100
